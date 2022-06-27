@@ -1,3 +1,4 @@
 .idea
 node_modules
-files/*
+files/**/*mp3
+files/**/*flac
