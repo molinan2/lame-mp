@@ -7,6 +7,12 @@ const Bottleneck = require('bottleneck/es5');
     await batchEncode(filenames);
 })();
 
+/**
+ * Batch encodes a list of files
+ *
+ * @param {Array.<string>} filenames
+ * @returns {Promise}
+ */
 async function batchEncode(filenames) {
     const limiter = new Bottleneck({
         maxConcurrent: 8,
@@ -19,7 +25,6 @@ async function batchEncode(filenames) {
 
     return new Promise((resolve, reject) => {
         limiter.on('idle', function() {
-            console.log('Done');
             resolve();
         });
     })

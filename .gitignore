@@ -2,4 +2,7 @@
 node_modules
 files/**/*mp3
 files/**/*flac
+files/**/*jpg
+files/**/*jpeg
+files/**/*png
 .DS_Store
