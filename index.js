@@ -24,8 +24,6 @@ async function batchEncode(filenames) {
     }
 
     return new Promise((resolve, reject) => {
-        limiter.on('idle', function() {
-            resolve();
-        });
+        limiter.on('idle', () => resolve());
     })
 }
