@@ -2,3 +2,4 @@
 node_modules
 files/**/*mp3
 files/**/*flac
+.DS_Store
