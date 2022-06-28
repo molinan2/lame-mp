@@ -5,4 +5,5 @@ files/**/*flac
 files/**/*jpg
 files/**/*jpeg
 files/**/*png
+files/**/*txt
 .DS_Store
