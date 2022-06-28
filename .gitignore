@@ -6,4 +6,5 @@ files/**/*jpg
 files/**/*jpeg
 files/**/*png
 files/**/*txt
+files/**/*wav
 .DS_Store
