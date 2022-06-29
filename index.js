@@ -7,7 +7,7 @@ const encoding = require('./lib/encoding');
     const filenames = storage
         .getFilenames(folder)
         .filter(f => isFilenameAllowed(f,extensions));
-    await encoding.batchEncodeMp3(filenames);
+    await encoding.batchEncodeMp3(filenames, 0);
 })();
 
 function isFilenameAllowed(filename, extensions=null) {
