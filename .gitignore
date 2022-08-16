@@ -7,4 +7,5 @@ files/**/*jpeg
 files/**/*png
 files/**/*txt
 files/**/*wav
+files/**/*m4a
 .DS_Store
