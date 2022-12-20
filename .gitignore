@@ -8,4 +8,5 @@ files/**/*png
 files/**/*txt
 files/**/*wav
 files/**/*m4a
+files/**/*mkv
 .DS_Store
