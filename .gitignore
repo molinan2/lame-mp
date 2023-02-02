@@ -1,4 +1,5 @@
 .idea
+.DS_Store
 node_modules
 files/**/*mp3
 files/**/*flac
@@ -9,4 +10,3 @@ files/**/*txt
 files/**/*wav
 files/**/*m4a
 files/**/*mkv
-.DS_Store
