@@ -2,7 +2,7 @@ const storage = require('./lib/storage');
 const encoding = require('./lib/encoding');
 
 (async function() {
-    const folder = './files';
+    const folder = `${__dirname}/files`;
     const extensions = ['flac', 'wav', 'm4a', 'aac', 'opus', 'mkv'];
     const filenames = storage
         .getFilenames(folder)
