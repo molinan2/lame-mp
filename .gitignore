@@ -1,12 +1,5 @@
 .idea
 .DS_Store
 node_modules
-files/**/*mp3
-files/**/*flac
-files/**/*jpg
-files/**/*jpeg
-files/**/*png
-files/**/*txt
-files/**/*wav
-files/**/*m4a
-files/**/*mkv
+files/*
+!files/.placeholder
