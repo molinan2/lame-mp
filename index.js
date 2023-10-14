@@ -3,7 +3,7 @@ const encoding = require('./lib/encoding');
 
 (async function() {
     const folder = `${__dirname}/files`;
-    const extensions = ['flac', 'wav', 'm4a', 'aac', 'opus', 'mkv'];
+    const extensions = ['flac', 'wav', 'm4a', 'aac', 'opus', 'mkv', 'mp4'];
     const filenames = storage
         .getFilenames(folder)
         .filter(f => isFileTypeAllowed(f,extensions));
