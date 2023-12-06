@@ -6,7 +6,7 @@ Encodes multiple audio files to Mp3 VBR at maximum quality (q=0 and maximum qual
 
 Use Node 16 or higher.
 
-Install `ffmpeg` as binary, for instance using `brew` (MacOS):
+Install `ffmpeg` as binary, for instance using `brew` (macOS):
 
 ```shell
 brew install ffmpeg
@@ -14,12 +14,21 @@ brew install ffmpeg
 
 # Usage
 
-Place your audio files inside the `files/` folder. All subfolders will be traversed recursively.
-
-Run:
+Place your audio files inside the `files/` folder. Then run:
 
 ```shell
 node index.js
 ```
 
-Newly encoded Mp3 files will be stored next to their source files, within the same folder. Source files/folders will remain untouched.
+All subfolders will be traversed recursively. Newly created Mp3 files will be stored next to their source files, within the same folder. Source files/folders will remain untouched. Mp3 files won't be re-encoded.
+
+### Quality
+
+Specify the quality of the encoding as a number ranging from `0` (highest) to `9` (lowest):
+
+```shell
+node index.js -q 2
+node index.js --quality 2
+```
+
+Default quality is `0` (maximum).
