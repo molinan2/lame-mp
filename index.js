@@ -2,6 +2,8 @@ const minimist = require('minimist');
 const storage = require('./lib/storage');
 const encoding = require('./lib/encoding');
 
+const DEFAULT_QUALITY = 0;
+
 (async function() {
     const folder = `${__dirname}/files`;
     const extensions = ['flac', 'wav', 'm4a', 'aac', 'opus', 'ogg', 'mkv', 'mp4', 'webm'];
@@ -27,7 +29,7 @@ function isFileTypeAllowed(filename, extensions=null) {
  */
 function parseQuality() {
     const args = minimist(process.argv);
-    const q = args['q'] || args['quality'] || 0;
+    const q = args['q'] || args['quality'] || DEFAULT_QUALITY;
 
     return q;
 }
