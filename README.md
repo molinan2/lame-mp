@@ -32,3 +32,13 @@ node index.js --quality 2
 ```
 
 Default quality is `0` (maximum).
+
+# Other
+
+Command line for maximum VBR quality using `ffmpeg`:
+
+```sh
+ffmpeg -y -v error -i INPUT.wav -c:v copy -c:a libmp3lame -q:a 0 compression_level 0 OUTPUT.mp3
+```
+
+Note that `ffmpeg` maps LAME's `-V0` option (quality) to `-q:a 0` and LAME's `-q 0` option (noise shaping & psycho acoustic algorithms) to `-compression_level 0`, as documented [here](https://ffmpeg.org/ffmpeg-codecs.html#libmp3lame-1).
