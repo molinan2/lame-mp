@@ -33,9 +33,10 @@ node index.js --quality 2
 
 ### Path
 
-Specify the input path with the option `--path` (or `-p`). If none is provided, the current working directory will be assumed:
+Specify the input path with the option `--path` (or `-p`) or by passing it as the first positional argument. If none is provided, the current working directory will be assumed:
 
 ```shell
+node index.js "./my-folder"
 node index.js --path "./my-folder"
 node index.js -p "./my-folder"
 ```

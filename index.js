@@ -35,7 +35,8 @@ function isFileTypeAllowed(filename) {
 
 function parseOptions() {
     const args = minimist(process.argv.slice(2));
-    const rawPath = args.p ?? args.path ?? '.';
+    const positionalPath = typeof args._[0] === 'string' ? args._[0] : undefined;
+    const rawPath = args.p ?? args.path ?? positionalPath ?? '.';
     const rawQuality = args.q ?? args.quality ?? DEFAULT_QUALITY;
     const targetPath = path.resolve(process.cwd(), rawPath);
     const quality = Number.parseInt(rawQuality, 10);
