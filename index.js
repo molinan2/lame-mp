@@ -1,35 +1,35 @@
-const minimist = require('minimist');
-const storage = require('./lib/storage');
-const encoding = require('./lib/encoding');
+import minimist from 'minimist';
+import path from 'node:path';
+import storage from './lib/storage.js';
+import encoding from './lib/encoding.js';
 
 const DEFAULT_QUALITY = 0;
+const SOURCE_EXTENSIONS = new Set(['.flac', '.wav', '.m4a', '.aac', '.opus', '.ogg', '.mkv', '.mp4', '.webm']);
 
-(async function() {
-    const folder = `${__dirname}/files`;
-    const extensions = ['flac', 'wav', 'm4a', 'aac', 'opus', 'ogg', 'mkv', 'mp4', 'webm'];
+async function main() {
+    const folder = path.resolve(import.meta.dirname, 'files');
     const quality = parseQuality();
     const filenames = storage
         .getFilenames(folder)
-        .filter(f => isFileTypeAllowed(f,extensions));
+        .filter(isFileTypeAllowed);
+
     await encoding.batchEncodeMp3(filenames, quality);
-})();
-
-function isFileTypeAllowed(filename, extensions=null) {
-    if (!extensions) return true;
-    for (const e of extensions) {
-        if (filename.endsWith(`.${e}`)) return true;
-    }
-    return false;
 }
 
-/**
- * Parses 'quality' from the command line, either '-q N' or '--quality N'
- *
- * @return {number}
- */
+function isFileTypeAllowed(filename) {
+    return SOURCE_EXTENSIONS.has(path.extname(filename).toLowerCase());
+}
+
 function parseQuality() {
-    const args = minimist(process.argv);
-    const q = args['q'] || args['quality'] || DEFAULT_QUALITY;
+    const args = minimist(process.argv.slice(2));
+    const rawQuality = args.q ?? args.quality ?? DEFAULT_QUALITY;
+    const quality = Number.parseInt(rawQuality, 10);
 
-    return q;
+    if (!Number.isInteger(quality) || quality < 0 || quality > 9) {
+        throw new Error(`Invalid quality "${rawQuality}". Expected an integer from 0 to 9.`);
+    }
+
+    return quality;
 }
+
+await main();
