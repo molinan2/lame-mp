@@ -1,5 +1,15 @@
 #!/usr/bin/env node
 
+/**
+ * Recursively encodes supported audio/video files in a target directory to MP3
+ * next to the source files.
+ *
+ * Options:
+ *   -q, --quality <0-9>  LAME VBR quality, from 0 (highest) to 9 (lowest).
+ *   -p, --path <path>    Directory to scan, relative to the current directory
+ *                        or absolute. Defaults to the current directory.
+ */
+
 import minimist from 'minimist';
 import path from 'node:path';
 import storage from './lib/storage.js';
