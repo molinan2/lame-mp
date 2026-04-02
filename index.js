@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import minimist from 'minimist';
 import path from 'node:path';
 import storage from './lib/storage.js';
@@ -7,7 +9,7 @@ const DEFAULT_QUALITY = 0;
 const SOURCE_EXTENSIONS = new Set(['.flac', '.wav', '.m4a', '.aac', '.opus', '.ogg', '.mkv', '.mp4', '.webm']);
 
 async function main() {
-    const folder = path.resolve(import.meta.dirname, 'files');
+    const folder = process.cwd();
     const quality = parseQuality();
     const filenames = storage
         .getFilenames(folder)
