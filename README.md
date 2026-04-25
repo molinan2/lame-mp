@@ -31,14 +31,14 @@ node index.js -q 2
 node index.js --quality 2
 ```
 
-### Path
+### Inputs
 
-Specify the input path with the option `--path` (or `-p`) or by passing it as the first positional argument. If none is provided, the current working directory will be assumed:
+Specify one or more input paths as positional arguments. Each path can be either a file or a folder. Folders are traversed recursively. If no input paths are provided, the current working directory will be assumed:
 
 ```shell
 node index.js "./my-folder"
-node index.js --path "./my-folder"
-node index.js -p "./my-folder"
+node index.js "./my-song.flac"
+node index.js "./album" "./single.wav" "./another-folder"
 ```
 
 # Notes

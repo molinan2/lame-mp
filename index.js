@@ -1,16 +1,29 @@
 #!/usr/bin/env node
 
 /**
- * Recursively encodes supported audio/video files in a target directory to MP3
- * next to the source files.
+ * Encodes supported audio/video files from one or more input paths to MP3
+ * next to the source files. Input paths can point to either files or
+ * directories, and directories are traversed recursively.
+ *
+ * Usage:
+ *   node index.js [--quality <0-9>] [path ...]
  *
  * Options:
  *   -q, --quality <0-9>  LAME VBR quality, from 0 (highest) to 9 (lowest).
- *   -p, --path <path>    Directory to scan, relative to the current directory
- *                        or absolute. Defaults to the current directory.
+ *
+ * Inputs:
+ *   [path ...]           One or more files and/or directories to encode.
+ *                        Defaults to the current directory when omitted.
+ *
+ * Examples:
+ *   node index.js
+ *   node index.js "./album"
+ *   node index.js "./song.flac"
+ *   node index.js -q 2 "./album" "./song.flac" "./more-files"
  */
 
 import minimist from 'minimist';
+import fs from 'node:fs';
 import path from 'node:path';
 import storage from './lib/storage.js';
 import encoding from './lib/encoding.js';
@@ -20,13 +33,13 @@ const SOURCE_EXTENSIONS = new Set(['.flac', '.wav', '.m4a', '.aac', '.opus', '.o
 
 async function main() {
     const options = parseOptions();
-    const folder = options.path;
+    const inputPaths = options.paths;
     const quality = options.quality;
-    const filenames = storage
-        .getFilenames(folder)
-        .filter(isFileTypeAllowed);
+    const filenames = collectFilenames(inputPaths)
+        .filter(isFileTypeAllowed)
+        .sort((a, b) => a.localeCompare(b));
 
-    await encoding.batchEncodeMp3(filenames, quality, folder);
+    await encoding.batchEncodeMp3(filenames, quality);
 }
 
 function isFileTypeAllowed(filename) {
@@ -35,10 +48,8 @@ function isFileTypeAllowed(filename) {
 
 function parseOptions() {
     const args = minimist(process.argv.slice(2));
-    const positionalPath = typeof args._[0] === 'string' ? args._[0] : undefined;
-    const rawPath = args.p ?? args.path ?? positionalPath ?? '.';
     const rawQuality = args.q ?? args.quality ?? DEFAULT_QUALITY;
-    const targetPath = path.resolve(process.cwd(), rawPath);
+    const rawPaths = args._.length > 0 ? args._ : ['.'];
     const quality = Number.parseInt(rawQuality, 10);
 
     if (!Number.isInteger(quality) || quality < 0 || quality > 9) {
@@ -46,9 +57,30 @@ function parseOptions() {
     }
 
     return {
-        path: targetPath,
+        paths: rawPaths.map((inputPath) => path.resolve(process.cwd(), inputPath)),
         quality
     };
+}
+
+function collectFilenames(inputPaths) {
+    const filenames = new Set();
+
+    for (const inputPath of inputPaths) {
+        const stats = fs.statSync(inputPath);
+
+        if (stats.isFile()) {
+            filenames.add(inputPath);
+            continue;
+        }
+
+        if (stats.isDirectory()) {
+            for (const filename of storage.getFilenames(inputPath)) {
+                filenames.add(filename);
+            }
+        }
+    }
+
+    return [...filenames];
 }
 
 await main();
